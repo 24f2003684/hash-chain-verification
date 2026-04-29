@@ -1,0 +1,23 @@
+name: Hash Chain Verification
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  hash-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate hash 89dd6961
+        run: |
+          echo -n "${{ secrets.MY_SECRET }}github-verified" | sha256sum | cut -c1-10 > verify.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: verify-hash-89dd6961
+          path: verify.txt
